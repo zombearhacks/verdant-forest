@@ -1,0 +1,654 @@
+{
+  "id": "eed27ea5-144e-466e-a9fc-503240dca245",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.plants": {
+      "name": "plants",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "common_name": {
+          "name": "common_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scientific_name": {
+          "name": "scientific_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "plant_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guild_layer": {
+          "name": "guild_layer",
+          "type": "guild_layer",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "functions": {
+          "name": "functions",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "edible_parts": {
+          "name": "edible_parts",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "sun": {
+          "name": "sun",
+          "type": "sun",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "water_min": {
+          "name": "water_min",
+          "type": "water_level",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "water_opt": {
+          "name": "water_opt",
+          "type": "water_level",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "water_max": {
+          "name": "water_max",
+          "type": "water_level",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ph_min": {
+          "name": "ph_min",
+          "type": "numeric(3, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ph_opt": {
+          "name": "ph_opt",
+          "type": "numeric(3, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ph_max": {
+          "name": "ph_max",
+          "type": "numeric(3, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "min_zone": {
+          "name": "min_zone",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "max_zone": {
+          "name": "max_zone",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mature_height_cm": {
+          "name": "mature_height_cm",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "spread_cm": {
+          "name": "spread_cm",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "root_depth_cm": {
+          "name": "root_depth_cm",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "plants_scientific_name_unique": {
+          "name": "plants_scientific_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "scientific_name"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "zone_range": {
+          "name": "zone_range",
+          "value": "\"plants\".\"min_zone\" <= \"plants\".\"max_zone\""
+        },
+        "ph_range": {
+          "name": "ph_range",
+          "value": "\"plants\".\"ph_min\" <= \"plants\".\"ph_opt\" and \"plants\".\"ph_opt\" <= \"plants\".\"ph_max\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.relationship_sources": {
+      "name": "relationship_sources",
+      "schema": "",
+      "columns": {
+        "relationship_id": {
+          "name": "relationship_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_id": {
+          "name": "source_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "relationship_sources_relationship_id_relationships_id_fk": {
+          "name": "relationship_sources_relationship_id_relationships_id_fk",
+          "tableFrom": "relationship_sources",
+          "tableTo": "relationships",
+          "columnsFrom": [
+            "relationship_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "relationship_sources_source_id_sources_id_fk": {
+          "name": "relationship_sources_source_id_sources_id_fk",
+          "tableFrom": "relationship_sources",
+          "tableTo": "sources",
+          "columnsFrom": [
+            "source_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "relationship_sources_pair_unique": {
+          "name": "relationship_sources_pair_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "relationship_id",
+            "source_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.relationships": {
+      "name": "relationships",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "plant_a_id": {
+          "name": "plant_a_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "plant_b_id": {
+          "name": "plant_b_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "relation_type": {
+          "name": "relation_type",
+          "type": "relation_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "directionality": {
+          "name": "directionality",
+          "type": "directionality",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mechanism": {
+          "name": "mechanism",
+          "type": "mechanism",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "evidence_tier": {
+          "name": "evidence_tier",
+          "type": "evidence_tier",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "relationships_plant_a_id_plants_id_fk": {
+          "name": "relationships_plant_a_id_plants_id_fk",
+          "tableFrom": "relationships",
+          "tableTo": "plants",
+          "columnsFrom": [
+            "plant_a_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "relationships_plant_b_id_plants_id_fk": {
+          "name": "relationships_plant_b_id_plants_id_fk",
+          "tableFrom": "relationships",
+          "tableTo": "plants",
+          "columnsFrom": [
+            "plant_b_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "relationships_pair_unique": {
+          "name": "relationships_pair_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "plant_a_id",
+            "plant_b_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "canonical_pair_order": {
+          "name": "canonical_pair_order",
+          "value": "\"relationships\".\"plant_a_id\" < \"relationships\".\"plant_b_id\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.sources": {
+      "name": "sources",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "publisher": {
+          "name": "publisher",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source_type": {
+          "name": "source_type",
+          "type": "source_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "year": {
+          "name": "year",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zip_zones": {
+      "name": "zip_zones",
+      "schema": "",
+      "columns": {
+        "zip": {
+          "name": "zip",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "zone_code": {
+          "name": "zone_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "zip_zones_zone_code_zones_code_fk": {
+          "name": "zip_zones_zone_code_zones_code_fk",
+          "tableFrom": "zip_zones",
+          "tableTo": "zones",
+          "columnsFrom": [
+            "zone_code"
+          ],
+          "columnsTo": [
+            "code"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.zones": {
+      "name": "zones",
+      "schema": "",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "min_temp_c": {
+          "name": "min_temp_c",
+          "type": "numeric(5, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "max_temp_c": {
+          "name": "max_temp_c",
+          "type": "numeric(5, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.directionality": {
+      "name": "directionality",
+      "schema": "public",
+      "values": [
+        "mutual",
+        "a_helps_b",
+        "b_helps_a",
+        "a_harms_b",
+        "b_harms_a"
+      ]
+    },
+    "public.evidence_tier": {
+      "name": "evidence_tier",
+      "schema": "public",
+      "values": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "public.guild_layer": {
+      "name": "guild_layer",
+      "schema": "public",
+      "values": [
+        "canopy",
+        "understory",
+        "shrub",
+        "herbaceous",
+        "groundcover",
+        "root",
+        "vine"
+      ]
+    },
+    "public.mechanism": {
+      "name": "mechanism",
+      "schema": "public",
+      "values": [
+        "pest_confusion",
+        "pest_trap",
+        "beneficial_insect_attraction",
+        "nitrogen_fixation",
+        "allelopathy",
+        "shade_structure",
+        "ground_cover_weed_suppression",
+        "nutrient_accumulation_claimed",
+        "disease_pressure",
+        "resource_competition",
+        "unknown"
+      ]
+    },
+    "public.plant_type": {
+      "name": "plant_type",
+      "schema": "public",
+      "values": [
+        "tree",
+        "shrub",
+        "vine",
+        "herb",
+        "vegetable",
+        "ground_cover"
+      ]
+    },
+    "public.relation_type": {
+      "name": "relation_type",
+      "schema": "public",
+      "values": [
+        "beneficial",
+        "antagonistic",
+        "neutral"
+      ]
+    },
+    "public.source_type": {
+      "name": "source_type",
+      "schema": "public",
+      "values": [
+        "peer_reviewed",
+        "extension_service",
+        "horticultural_org",
+        "book",
+        "traditional"
+      ]
+    },
+    "public.sun": {
+      "name": "sun",
+      "schema": "public",
+      "values": [
+        "full",
+        "partial",
+        "shade",
+        "adaptable"
+      ]
+    },
+    "public.water_level": {
+      "name": "water_level",
+      "schema": "public",
+      "values": [
+        "dry",
+        "medium",
+        "wet"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
