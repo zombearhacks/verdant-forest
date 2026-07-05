@@ -8,10 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx scripts/seed.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
+    "csv-parse": "^7.0.1",
     "drizzle-orm": "^0.45.2",
     "next": "16.2.10",
     "react": "19.2.4",
@@ -26,6 +28,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "tsx": "^4.23.0",
     "typescript": "^5"
   }
 }
