@@ -25,7 +25,8 @@ export default async function Home() {
     <main style={{ maxWidth: 800, margin: "2rem auto", padding: "0 1rem" }}>
       <h1>Verdant Forest — Plants</h1>
       <p>
-        {rows.length} plants seeded. <Link href="/transparency">Data sources & evidence tiers →</Link>
+        {rows.length} plants seeded. <Link href="/transparency">Data sources & evidence tiers →</Link>{" "}
+        <Link href="/guild">Guild builder →</Link>
       </p>
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>

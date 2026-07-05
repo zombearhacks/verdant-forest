@@ -30,6 +30,7 @@ export interface EnginePlant {
   maxZone: number;
   guildLayer: GuildLayer | null;
   rootDepthCm: number | null;
+  matureHeightCm: number | null;
 }
 
 export interface EngineRelationship {
