@@ -24,7 +24,9 @@ export default async function Home() {
   return (
     <main style={{ maxWidth: 800, margin: "2rem auto", padding: "0 1rem" }}>
       <h1>Verdant Forest — Plants</h1>
-      <p>{rows.length} plants seeded.</p>
+      <p>
+        {rows.length} plants seeded. <Link href="/transparency">Data sources & evidence tiers →</Link>
+      </p>
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr style={{ textAlign: "left", borderBottom: "1px solid" }}>
