@@ -1,4 +1,5 @@
 import { asc } from "drizzle-orm";
+import Link from "next/link";
 import { db } from "@/lib/db";
 import { plants } from "@/lib/db/schema";
 
@@ -37,7 +38,7 @@ export default async function Home() {
           {rows.map((plant) => (
             <tr key={plant.id} style={{ borderBottom: "1px solid #ccc4" }}>
               <td>
-                {plant.commonName}
+                <Link href={`/plants/${plant.id}`}>{plant.commonName}</Link>
                 <br />
                 <em>{plant.scientificName}</em>
               </td>
