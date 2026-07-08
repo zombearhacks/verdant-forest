@@ -70,7 +70,68 @@ describe("buildGuild", () => {
     const result = buildGuild(apple, [clover, comfrey], relationships);
     const names = result.members.map((m) => m.plant.commonName);
     expect(names).toEqual(["Apple", "Comfrey", "White clover"]);
-    expect(result.members[1].reasons[0]).toContain("beneficial");
+    expect(result.members[1].reasons[0].text).toContain("beneficial");
+    // Comfrey's relationship to apple is C-tier -> traditional badge.
+    expect(result.members[1].reasons[0].isTraditional).toBe(true);
+    // Clover's relationship to apple is B-tier -> not traditional.
+    expect(result.members[2].reasons[0].isTraditional).toBe(false);
+  });
+
+  it("ranks a C-tier beneficial candidate above a D-tier one (traditional beats folklore)", () => {
+    const anchor = plant({ id: "anchor", guildLayer: "canopy" });
+    const cTier = plant({ id: "c-tier", guildLayer: "herbaceous" });
+    const dTier = plant({ id: "d-tier", guildLayer: "shrub" });
+
+    const relationships: EngineRelationship[] = [
+      {
+        plantAId: "anchor",
+        plantBId: "c-tier",
+        relationType: "beneficial",
+        evidenceTier: "C",
+        summary: "Traditional permaculture pairing.",
+      },
+      {
+        plantAId: "anchor",
+        plantBId: "d-tier",
+        relationType: "beneficial",
+        evidenceTier: "D",
+        summary: "Unsourced folklore pairing.",
+      },
+    ];
+
+    const result = buildGuild(anchor, [cTier, dTier], relationships);
+    const cMember = result.members.find((m) => m.plant.id === "c-tier");
+    const dMember = result.members.find((m) => m.plant.id === "d-tier");
+    // Both get added (different layers, no conflict) but only C is flagged traditional.
+    expect(cMember?.reasons[0].isTraditional).toBe(true);
+    expect(dMember?.reasons[0].isTraditional).toBe(false);
+  });
+
+  it("picks a C-tier candidate over a D-tier one competing for the same layer", () => {
+    const anchor = plant({ id: "anchor", guildLayer: "canopy" });
+    const cTier = plant({ id: "c-tier", guildLayer: "herbaceous" });
+    const dTier = plant({ id: "d-tier", guildLayer: "herbaceous" });
+
+    const relationships: EngineRelationship[] = [
+      {
+        plantAId: "anchor",
+        plantBId: "c-tier",
+        relationType: "beneficial",
+        evidenceTier: "C",
+        summary: "Traditional permaculture pairing.",
+      },
+      {
+        plantAId: "anchor",
+        plantBId: "d-tier",
+        relationType: "beneficial",
+        evidenceTier: "D",
+        summary: "Unsourced folklore pairing.",
+      },
+    ];
+
+    const result = buildGuild(anchor, [cTier, dTier], relationships);
+    expect(result.members).toHaveLength(2);
+    expect(result.members[1].plant.id).toBe("c-tier");
   });
 
   it("hard-excludes an antagonist even when it's the only candidate for a layer", () => {

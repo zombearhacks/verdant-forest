@@ -1,7 +1,7 @@
 import { functionalScore } from "./functional-score";
 import { nicheScore } from "./niche-score";
 import { rangesOverlap } from "./ranges";
-import type { EnginePlant, EngineRelationship, GuildLayer } from "./types";
+import type { EnginePlant, EngineRelationship, EvidenceTier, GuildLayer } from "./types";
 
 const LAYER_ORDER: GuildLayer[] = [
   "canopy",
@@ -60,9 +60,18 @@ function soilOverlapStrength(a: EnginePlant, b: EnginePlant): number {
   return (ph + water) / 2;
 }
 
+export interface GuildReason {
+  text: string;
+  evidenceTier: EvidenceTier | null; // null = no documented relationship
+  // Guild builder shows A/B/C by default (C carries this badge); D-tier
+  // positives don't get a ranking boost, matching "D opt-in" from the
+  // picker, translated to this context (decision #27).
+  isTraditional: boolean;
+}
+
 export interface GuildMember {
   plant: EnginePlant;
-  reasons: string[];
+  reasons: GuildReason[];
 }
 
 export interface GuildResult {
@@ -100,14 +109,14 @@ export function buildGuild(
       tier: number;
       shadeTolerant: boolean;
       overlapStrength: number;
-      reasons: string[];
+      reasons: GuildReason[];
     }[] = [];
 
     for (const candidate of layerCandidates) {
       let hardExcluded = false;
       let bestTier = 0;
       let overlapSum = 0;
-      const reasons: string[] = [];
+      const reasons: GuildReason[] = [];
 
       for (const member of members) {
         if (!soilCompatible(candidate, member.plant)) {
@@ -120,22 +129,30 @@ export function buildGuild(
           break;
         }
         if (functional) {
-          reasons.push(
-            `${functional.relationType} with ${member.plant.commonName} (${functional.evidenceTier}-tier): ${functional.summary}`,
-          );
+          const isTraditional = functional.evidenceTier === "C";
+          reasons.push({
+            text: `${functional.relationType} with ${member.plant.commonName} (${functional.evidenceTier}-tier): ${functional.summary}`,
+            evidenceTier: functional.evidenceTier,
+            isTraditional,
+          });
           const tier =
-            functional.relationType === "beneficial"
-              ? functional.evidenceTier === "A" || functional.evidenceTier === "B"
+            functional.relationType !== "beneficial"
+              ? 0
+              : functional.evidenceTier === "A" || functional.evidenceTier === "B"
                 ? 2
-                : 1
-              : 0;
+                : functional.evidenceTier === "C"
+                  ? 1
+                  : 0; // D-tier positives: no ranking boost, same as unknown
           bestTier = Math.max(bestTier, tier);
         } else {
           const niche = nicheScore(candidate, member.plant);
-          reasons.push(
-            `No documented relationship with ${member.plant.commonName}; compatible soil (pH/water) and ` +
+          reasons.push({
+            text:
+              `No documented relationship with ${member.plant.commonName}; compatible soil (pH/water) and ` +
               `${niche.layerDiffers ? "different" : "same"} guild layer.`,
-          );
+            evidenceTier: null,
+            isTraditional: false,
+          });
         }
         overlapSum += soilOverlapStrength(candidate, member.plant);
       }

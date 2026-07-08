@@ -71,7 +71,22 @@ export default async function GuildPage({
                   {member.reasons.length > 0 && (
                     <ul>
                       {member.reasons.map((reason) => (
-                        <li key={reason}>{reason}</li>
+                        <li key={reason.text}>
+                          {reason.isTraditional && (
+                            <span
+                              style={{
+                                fontSize: "0.75em",
+                                border: "1px solid",
+                                borderRadius: 4,
+                                padding: "0 4px",
+                                marginRight: "0.5em",
+                              }}
+                            >
+                              traditional
+                            </span>
+                          )}
+                          {reason.text}
+                        </li>
                       ))}
                     </ul>
                   )}
