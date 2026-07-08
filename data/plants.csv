@@ -1,31 +1,42 @@
-scientific_name,common_name,type,guild_layer,functions,edible_parts,sun,water_min,water_opt,water_max,ph_min,ph_opt,ph_max,min_zone,max_zone,mature_height_cm,spread_cm,root_depth_cm,notes
-Solanum lycopersicum,Tomato,vegetable,herbaceous,edible,fruit,full,medium,medium,wet,6.0,6.5,6.8,3,11,150,60,90,"Grown as an annual; highly juglone-sensitive."
-Phaseolus vulgaris,Bush bean,vegetable,herbaceous,edible;nitrogen_fixer,pod;seed,full,dry,medium,wet,6.0,6.5,7.0,3,11,50,30,60,"Legume; fixes nitrogen via rhizobia."
-Zea mays,Sweet corn,vegetable,herbaceous,edible,seed,full,medium,medium,wet,5.8,6.5,7.0,4,11,240,45,120,"Heavy feeder; tall structural annual."
-Cucurbita pepo,Summer squash,vegetable,groundcover,edible;ground_cover,fruit;flower,full,medium,medium,wet,6.0,6.5,7.0,3,11,60,180,90,"Sprawling habit shades soil."
-Ocimum basilicum,Basil,herb,herbaceous,edible;pollinator_attractor;pest_confuser,leaf,full,medium,medium,medium,6.0,6.5,7.5,4,11,60,30,30,"Warm-season annual herb."
-Tagetes patula,French marigold,herb,herbaceous,pest_confuser;pollinator_attractor,,full,dry,medium,medium,6.0,6.5,7.5,2,11,30,25,25,"Nematode-suppressive; not grown for food."
-Anethum graveolens,Dill,herb,herbaceous,edible;pollinator_attractor,leaf;seed,full,medium,medium,medium,5.5,6.5,7.0,3,11,90,30,45,"Umbel flowers attract predatory/parasitic insects."
-Tropaeolum majus,Nasturtium,herb,groundcover,edible;pest_confuser;ground_cover,leaf;flower,full,dry,medium,medium,6.0,6.5,7.5,2,11,30,90,30,"Used as an aphid trap crop; leaves/flowers edible."
-Allium cepa,Onion,vegetable,root,edible;pest_confuser,bulb;leaf,full,medium,medium,medium,6.0,6.5,7.0,3,9,45,15,30,"Allium; pungent foliage."
-Lactuca sativa,Lettuce,vegetable,herbaceous,edible,leaf,partial,medium,medium,wet,6.0,6.5,7.0,4,9,25,20,20,"Cool-season; tolerates part shade."
-Malus domestica,Apple,tree,canopy,edible,fruit,full,medium,medium,medium,6.0,6.5,7.0,3,8,400,400,200,"Semi-dwarf assumed; guild anchor."
-Symphytum officinale,Comfrey,herb,herbaceous,dynamic_accumulator;mulch_chop_drop;pollinator_attractor,,adaptable,medium,medium,wet,6.0,6.7,7.5,3,9,90,90,180,"Use sterile Bocking 14 cultivar; leaves toxic if eaten."
-Trifolium repens,White clover,herb,groundcover,nitrogen_fixer;ground_cover;pollinator_attractor,,adaptable,medium,medium,wet,6.0,6.5,7.0,3,10,15,30,30,"Perennial living mulch / N-fixer."
-Vaccinium corymbosum,Highbush blueberry,shrub,shrub,edible;pollinator_attractor,fruit,full,medium,medium,wet,4.5,4.8,5.5,3,7,180,150,60,"Acid-loving; co-habitability outlier on pH."
-Juglans nigra,Black walnut,tree,canopy,edible,seed,full,medium,medium,medium,6.0,6.5,7.5,4,9,2500,2000,500,"Allelopathic (juglone); large mature tree."
-Diospyros virginiana,American persimmon,tree,canopy,edible;pollinator_attractor,fruit,full,dry,medium,wet,5.5,6.5,7.5,4,9,1500,900,300,"Dioecious — needs male + female for fruit; drought-tolerant native."
-Morus rubra,Red mulberry,tree,canopy,edible;pest_confuser,fruit,full,medium,medium,wet,5.5,6.5,7.5,4,8,1200,1200,200,"Native; ripe fruit lures birds off other crops (decoy)."
-Asimina triloba,Pawpaw,tree,understory,edible,fruit,partial,medium,medium,wet,5.5,6.5,7.0,5,8,600,400,150,"Native understory tree; shade-tolerant when young; needs cross-pollination."
-Amelanchier arborea,Serviceberry,tree,understory,edible;pollinator_attractor,fruit,partial,medium,medium,medium,5.5,6.5,7.0,4,9,600,450,150,"Native; early-spring pollinator resource."
-Corylus americana,American hazelnut,shrub,understory,edible,seed,partial,medium,medium,medium,5.5,6.5,7.5,4,9,300,300,120,"Native nut shrub; multi-stem."
-Sambucus canadensis,American elderberry,shrub,shrub,edible;pollinator_attractor,fruit,full,medium,medium,wet,5.5,6.5,7.0,3,9,300,250,100,"Missouri commercial crop; berries must be cooked."
-Aronia melanocarpa,Black chokeberry,shrub,shrub,edible;pollinator_attractor,fruit,full,dry,medium,wet,5.0,6.0,7.0,3,8,180,150,80,"Native; extremely adaptable to soil and moisture."
-Rubus allegheniensis,Blackberry,shrub,shrub,edible,fruit,full,dry,medium,medium,5.5,6.0,7.0,4,8,200,200,90,"Native bramble; juglone-sensitive."
-Apios americana,Groundnut,vine,vine,edible;nitrogen_fixer,tuber;seed,partial,medium,wet,wet,5.0,6.0,7.0,3,8,200,60,60,"Native N-fixing vine; protein-rich edible tubers; wet-tolerant."
-Vitis riparia,Riverbank grape,vine,vine,edible;pollinator_attractor,fruit,full,dry,medium,medium,5.5,6.5,7.5,3,8,500,300,200,"Native grape; very vigorous — needs strong support."
-Helianthus tuberosus,Sunchoke,vegetable,root,edible,tuber,full,dry,medium,medium,5.8,6.5,7.5,3,9,250,100,40,"Native; tubers edible but plant is allelopathic and aggressive — contain it."
-Armoracia rusticana,Horseradish,vegetable,root,edible;pest_confuser,root;leaf,partial,medium,medium,medium,5.5,6.5,7.5,3,9,90,60,60,"Traditional fruit-tree-guild disease/pest deterrent; spreads."
-Monarda fistulosa,Wild bergamot,herb,herbaceous,pollinator_attractor;pest_confuser,leaf;flower,full,dry,medium,medium,6.0,6.8,7.5,3,9,120,60,45,"Native pollinator magnet; aromatic mint-family."
-Echinacea purpurea,Purple coneflower,herb,herbaceous,pollinator_attractor,,full,dry,medium,medium,6.0,6.8,7.5,3,8,120,45,60,"Native pollinator/beneficial-insect plant; roots medicinal, not food."
-Fragaria virginiana,Wild strawberry,herb,groundcover,edible;ground_cover;pollinator_attractor,fruit,partial,medium,medium,medium,5.5,6.0,7.0,3,8,15,40,20,"Native edible groundcover / living mulch."
+scientific_name,common_name,type,guild_layer,functions,edible_parts,sun,water_min,water_opt,water_max,ph_min,ph_opt,ph_max,min_zone,max_zone,mature_height_cm,spread_cm,root_depth_cm,notes,recommendable
+Solanum lycopersicum,Tomato,vegetable,herbaceous,edible,fruit,full,medium,medium,wet,6.0,6.5,6.8,3,11,150,60,90,"Grown as an annual; highly juglone-sensitive.",true
+Phaseolus vulgaris,Bush bean,vegetable,herbaceous,edible;nitrogen_fixer,pod;seed,full,dry,medium,wet,6.0,6.5,7.0,3,11,50,30,60,"Legume; fixes nitrogen via rhizobia.",true
+Zea mays,Sweet corn,vegetable,herbaceous,edible,seed,full,medium,medium,wet,5.8,6.5,7.0,4,11,240,45,120,"Heavy feeder; tall structural annual.",true
+Cucurbita pepo,Summer squash,vegetable,groundcover,edible;ground_cover,fruit;flower,full,medium,medium,wet,6.0,6.5,7.0,3,11,60,180,90,"Sprawling habit shades soil.",true
+Ocimum basilicum,Basil,herb,herbaceous,edible;pollinator_attractor;pest_confuser,leaf,full,medium,medium,medium,6.0,6.5,7.5,4,11,60,30,30,"Warm-season annual herb.",true
+Tagetes patula,French marigold,herb,herbaceous,pest_confuser;pollinator_attractor,,full,dry,medium,medium,6.0,6.5,7.5,2,11,30,25,25,"Nematode-suppressive; not grown for food.",true
+Anethum graveolens,Dill,herb,herbaceous,edible;pollinator_attractor,leaf;seed,full,medium,medium,medium,5.5,6.5,7.0,3,11,90,30,45,"Umbel flowers attract predatory/parasitic insects.",true
+Tropaeolum majus,Nasturtium,herb,groundcover,edible;pest_confuser;ground_cover,leaf;flower,full,dry,medium,medium,6.0,6.5,7.5,2,11,30,90,30,"Used as an aphid trap crop; leaves/flowers edible.",true
+Allium cepa,Onion,vegetable,root,edible;pest_confuser,bulb;leaf,full,medium,medium,medium,6.0,6.5,7.0,3,9,45,15,30,"Allium; pungent foliage.",true
+Lactuca sativa,Lettuce,vegetable,herbaceous,edible,leaf,partial,medium,medium,wet,6.0,6.5,7.0,4,9,25,20,20,"Cool-season; tolerates part shade.",true
+Malus domestica,Apple,tree,canopy,edible,fruit,full,medium,medium,medium,6.0,6.5,7.0,3,8,400,400,200,"Semi-dwarf assumed; guild anchor.",true
+Symphytum officinale,Comfrey,herb,herbaceous,dynamic_accumulator;mulch_chop_drop;pollinator_attractor,,adaptable,medium,medium,wet,6.0,6.7,7.5,3,9,90,90,180,"Use sterile Bocking 14 cultivar; leaves toxic if eaten.",true
+Trifolium repens,White clover,herb,groundcover,nitrogen_fixer;ground_cover;pollinator_attractor,,adaptable,medium,medium,wet,6.0,6.5,7.0,3,10,15,30,30,"Perennial living mulch / N-fixer.",true
+Vaccinium corymbosum,Highbush blueberry,shrub,shrub,edible;pollinator_attractor,fruit,full,medium,medium,wet,4.5,4.8,5.5,3,7,180,150,60,"Acid-loving; co-habitability outlier on pH.",true
+Juglans nigra,Black walnut,tree,canopy,edible,seed,full,medium,medium,medium,6.0,6.5,7.5,4,9,2500,2000,500,"Allelopathic (juglone); large mature tree.",true
+Diospyros virginiana,American persimmon,tree,canopy,edible;pollinator_attractor,fruit,full,dry,medium,wet,5.5,6.5,7.5,4,9,1500,900,300,"Dioecious — needs male + female for fruit; drought-tolerant native.",true
+Morus rubra,Red mulberry,tree,canopy,edible;pest_confuser,fruit,full,medium,medium,wet,5.5,6.5,7.5,4,8,1200,1200,200,"Native; ripe fruit lures birds off other crops (decoy).",true
+Asimina triloba,Pawpaw,tree,understory,edible,fruit,partial,medium,medium,wet,5.5,6.5,7.0,5,8,600,400,150,"Native understory tree; shade-tolerant when young; needs cross-pollination.",true
+Amelanchier arborea,Serviceberry,tree,understory,edible;pollinator_attractor,fruit,partial,medium,medium,medium,5.5,6.5,7.0,4,9,600,450,150,"Native; early-spring pollinator resource.",true
+Corylus americana,American hazelnut,shrub,understory,edible,seed,partial,medium,medium,medium,5.5,6.5,7.5,4,9,300,300,120,"Native nut shrub; multi-stem.",true
+Sambucus canadensis,American elderberry,shrub,shrub,edible;pollinator_attractor,fruit,full,medium,medium,wet,5.5,6.5,7.0,3,9,300,250,100,"Missouri commercial crop; berries must be cooked.",true
+Aronia melanocarpa,Black chokeberry,shrub,shrub,edible;pollinator_attractor,fruit,full,dry,medium,wet,5.0,6.0,7.0,3,8,180,150,80,"Native; extremely adaptable to soil and moisture.",true
+Rubus allegheniensis,Blackberry,shrub,shrub,edible,fruit,full,dry,medium,medium,5.5,6.0,7.0,4,8,200,200,90,"Native bramble; juglone-sensitive.",true
+Apios americana,Groundnut,vine,vine,edible;nitrogen_fixer,tuber;seed,partial,medium,wet,wet,5.0,6.0,7.0,3,8,200,60,60,"Native N-fixing vine; protein-rich edible tubers; wet-tolerant.",true
+Vitis riparia,Riverbank grape,vine,vine,edible;pollinator_attractor,fruit,full,dry,medium,medium,5.5,6.5,7.5,3,8,500,300,200,"Native grape; very vigorous — needs strong support.",true
+Helianthus tuberosus,Sunchoke,vegetable,root,edible,tuber,full,dry,medium,medium,5.8,6.5,7.5,3,9,250,100,40,"Native; tubers edible but plant is allelopathic and aggressive — contain it.",true
+Armoracia rusticana,Horseradish,vegetable,root,edible;pest_confuser,root;leaf,partial,medium,medium,medium,5.5,6.5,7.5,3,9,90,60,60,"Traditional fruit-tree-guild disease/pest deterrent; spreads.",true
+Monarda fistulosa,Wild bergamot,herb,herbaceous,pollinator_attractor;pest_confuser,leaf;flower,full,dry,medium,medium,6.0,6.8,7.5,3,9,120,60,45,"Native pollinator magnet; aromatic mint-family.",true
+Echinacea purpurea,Purple coneflower,herb,herbaceous,pollinator_attractor,,full,dry,medium,medium,6.0,6.8,7.5,3,8,120,45,60,"Native pollinator/beneficial-insect plant; roots medicinal, not food.",true
+Fragaria virginiana,Wild strawberry,herb,groundcover,edible;ground_cover;pollinator_attractor,fruit,partial,medium,medium,medium,5.5,6.0,7.0,3,8,15,40,20,"Native edible groundcover / living mulch.",true
+Quercus alba,White oak,tree,canopy,shade_canopy;wildlife_habitat,,full,dry,medium,medium,5.5,6.5,7.0,3,9,2500,2000,400,"Existing-yard canopy: deep shade + dry, root-filled zone; major wildlife value. Not planted for food.",false
+Acer saccharinum,Silver maple,tree,canopy,shade_canopy,,full,medium,medium,wet,5.5,6.5,7.5,3,9,2500,1500,100,"Very common yard tree; shallow aggressive roots + dense dry shade make underplanting hard.",false
+Pinus strobus,Eastern white pine,tree,canopy,shade_canopy;windbreak;wildlife_habitat,,full,dry,medium,medium,4.5,6.0,7.0,3,8,2500,1200,150,"Evergreen windbreak + winter cover; mildly acidic leaf litter.",false
+Gleditsia triacanthos,Honey locust,tree,canopy,shade_canopy;wildlife_habitat,,full,dry,medium,wet,6.0,6.8,8.0,3,9,2000,1200,200,"Light dappled shade good for understory. Often called an N-fixer but forms NO nodules — does not reliably fix nitrogen.",false
+Cercis canadensis,Eastern redbud,tree,understory,edible;pollinator_attractor;wildlife_habitat,flower,partial,dry,medium,medium,6.0,6.8,7.5,4,9,700,800,150,"Native understory; earliest-spring pollinator; flowers edible. Legume but weak/absent N-fixation.",false
+Juniperus virginiana,Eastern red cedar,tree,canopy,windbreak;wildlife_habitat,,full,dry,medium,medium,6.0,6.8,7.8,2,9,1500,600,200,"Common fencerow evergreen; windbreak + bird habitat. WARNING: alternate host for cedar-apple rust.",false
+Celtis occidentalis,Hackberry,tree,canopy,shade_canopy;wildlife_habitat,,full,dry,medium,wet,6.0,7.0,8.0,3,9,1800,1500,250,"Tough urban shade tree; berries feed birds; larval host for several butterflies.",false
+Maclura pomifera,Osage orange,tree,canopy,windbreak;wildlife_habitat,,full,dry,medium,medium,6.0,7.0,8.0,4,9,1400,1200,300,"Native; historic living-fence / windbreak; thorny; fruit inedible.",false
+Foeniculum vulgare,Fennel,herb,herbaceous,edible;pollinator_attractor,bulb;leaf;seed,full,dry,medium,medium,5.5,6.5,7.0,4,9,150,45,60,"Aromatic; roots are allelopathic — inhibits many neighbours. Best in a pot or at the garden edge.",true
+Helianthus annuus,Sunflower,herb,herbaceous,edible;pollinator_attractor;wildlife_habitat,seed,full,dry,medium,medium,6.0,6.8,7.5,2,11,250,60,120,"Annual; seeds + pollinators; allelopathic to potatoes and some beans (worse from spent hulls).",true
+Solanum tuberosum,Potato,vegetable,root,edible,tuber,full,medium,medium,wet,4.8,5.5,6.5,3,10,60,40,45,"Nightshade; shares late blight with tomato; juglone-sensitive.",true

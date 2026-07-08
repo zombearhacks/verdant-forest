@@ -36,7 +36,8 @@ export default async function GuildPage({
         Pick an anchor plant; the builder greedily fills each empty layer
         (canopy → vine) with the best-fitting candidate, ruling out
         antagonists and preferring shade-tolerant species under a
-        shade-casting anchor.
+        shade-casting anchor. Site features (existing yard trees, marked
+        below) can anchor a guild but are never auto-added to fill a layer.
       </p>
       <form>
         <label>
@@ -48,6 +49,7 @@ export default async function GuildPage({
             {allPlants.map((plant) => (
               <option key={plant.id} value={plant.id}>
                 {plant.commonName} ({plant.guildLayer ?? "no layer"})
+                {!plant.recommendable ? " — site feature" : ""}
               </option>
             ))}
           </select>

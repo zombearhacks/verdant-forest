@@ -31,6 +31,9 @@ export interface EnginePlant {
   guildLayer: GuildLayer | null;
   rootDepthCm: number | null;
   matureHeightCm: number | null;
+  // false = a "site feature" (existing yard tree) — never suggested to
+  // plant, only enters a guild when the user declares it present.
+  recommendable: boolean;
 }
 
 export interface EngineRelationship {

@@ -18,6 +18,7 @@ function plant(overrides: Partial<EnginePlant> & { id: string }): EnginePlant {
     guildLayer: null,
     rootDepthCm: null,
     matureHeightCm: null,
+    recommendable: true,
     ...overrides,
   };
 }
@@ -150,6 +151,43 @@ describe("buildGuild", () => {
     const result = buildGuild(anchor, [antagonist], relationships);
     expect(result.members).toHaveLength(1);
     expect(result.members[0].plant.id).toBe("anchor");
+  });
+
+  it("never auto-fills a site feature (recommendable=false), even as the best-ranked candidate", () => {
+    const anchor = plant({ id: "anchor", guildLayer: "shrub" });
+    const siteFeature = plant({
+      id: "oak",
+      commonName: "White oak",
+      guildLayer: "canopy",
+      recommendable: false,
+    });
+    const relationships: EngineRelationship[] = [
+      {
+        plantAId: "anchor",
+        plantBId: "oak",
+        relationType: "beneficial",
+        evidenceTier: "A",
+        summary: "Strongest possible relationship, but oak is a site feature.",
+      },
+    ];
+
+    const result = buildGuild(anchor, [siteFeature], relationships);
+    expect(result.members).toHaveLength(1);
+  });
+
+  it("allows a site feature (recommendable=false) as the anchor itself", () => {
+    const oakAnchor = plant({
+      id: "oak",
+      commonName: "White oak",
+      guildLayer: "canopy",
+      recommendable: false,
+    });
+    const pawpaw = plant({ id: "pawpaw", guildLayer: "understory" });
+
+    const result = buildGuild(oakAnchor, [pawpaw], []);
+    expect(result.members).toHaveLength(2);
+    expect(result.members[0].plant.id).toBe("oak");
+    expect(result.members[1].plant.id).toBe("pawpaw");
   });
 
   it("applies the shade rule: prefers shade-tolerant candidates under a tall anchor", () => {

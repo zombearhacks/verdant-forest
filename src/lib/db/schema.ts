@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+  boolean,
   check,
   numeric,
   pgEnum,
@@ -107,6 +108,10 @@ export const plants = pgTable(
     spreadCm: smallint("spread_cm"),
     rootDepthCm: smallint("root_depth_cm"),
     notes: text("notes"),
+    // false = a "site feature" (existing yard tree, e.g. oak, silver maple) —
+    // never suggested to plant, only enters a guild when the user declares
+    // it present (as anchor or existing occupant). Decision #28.
+    recommendable: boolean("recommendable").notNull().default(true),
     ...timestamps,
   },
   (table) => [

@@ -1,0 +1,1 @@
+ALTER TABLE "plants" ADD COLUMN "recommendable" boolean DEFAULT true NOT NULL;

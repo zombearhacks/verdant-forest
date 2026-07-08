@@ -17,6 +17,7 @@ export default async function Home() {
       guildLayer: plants.guildLayer,
       minZone: plants.minZone,
       maxZone: plants.maxZone,
+      recommendable: plants.recommendable,
     })
     .from(plants)
     .orderBy(asc(plants.commonName));
@@ -42,6 +43,12 @@ export default async function Home() {
             <tr key={plant.id} style={{ borderBottom: "1px solid #ccc4" }}>
               <td>
                 <Link href={`/plants/${plant.id}`}>{plant.commonName}</Link>
+                {!plant.recommendable && (
+                  <>
+                    {" "}
+                    <small>(site feature)</small>
+                  </>
+                )}
                 <br />
                 <em>{plant.scientificName}</em>
               </td>

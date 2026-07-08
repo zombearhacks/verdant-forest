@@ -23,5 +23,6 @@ export function toEnginePlant(row: PlantRow): EnginePlant {
     guildLayer: row.guildLayer,
     rootDepthCm: row.rootDepthCm,
     matureHeightCm: row.matureHeightCm,
+    recommendable: row.recommendable,
   };
 }

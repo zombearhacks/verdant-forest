@@ -100,8 +100,14 @@ export function buildGuild(
   for (const layer of LAYER_ORDER) {
     if (filledLayers.has(layer)) continue;
 
+    // Greedy fill only ever proposes plants you'd plant, never site
+    // features (decision #28) — those can only enter a guild as a
+    // user-declared anchor/existing occupant, not an auto-added candidate.
     const layerCandidates = candidates.filter(
-      (candidate) => candidate.guildLayer === layer && candidate.id !== anchor.id,
+      (candidate) =>
+        candidate.recommendable &&
+        candidate.guildLayer === layer &&
+        candidate.id !== anchor.id,
     );
 
     const scored: {

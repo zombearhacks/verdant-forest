@@ -80,6 +80,12 @@ function parseOptionalSmallint(
   return parseSmallint(value, field, rowLabel);
 }
 
+function parseBoolean(value: string, field: string, rowLabel: string): boolean {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  throw new Error(`${rowLabel}: invalid boolean ${field} "${value}" (expected "true" or "false")`);
+}
+
 const directionalityFlip: Record<string, string> = {
   mutual: "mutual",
   a_helps_b: "b_helps_a",
@@ -136,6 +142,7 @@ async function seedPlants(): Promise<Map<string, string>> {
         spreadCm: parseOptionalSmallint(row.spread_cm, "spread_cm", rowLabel),
         rootDepthCm: parseOptionalSmallint(row.root_depth_cm, "root_depth_cm", rowLabel),
         notes: row.notes || null,
+        recommendable: parseBoolean(row.recommendable, "recommendable", rowLabel),
       };
 
       const [inserted] = await db
