@@ -68,7 +68,7 @@ describe("buildGuild", () => {
       },
     ];
 
-    const result = buildGuild(apple, [clover, comfrey], relationships);
+    const result = buildGuild([apple], [clover, comfrey], relationships);
     const names = result.members.map((m) => m.plant.commonName);
     expect(names).toEqual(["Apple", "Comfrey", "White clover"]);
     expect(result.members[1].reasons[0].text).toContain("beneficial");
@@ -100,7 +100,7 @@ describe("buildGuild", () => {
       },
     ];
 
-    const result = buildGuild(anchor, [cTier, dTier], relationships);
+    const result = buildGuild([anchor], [cTier, dTier], relationships);
     const cMember = result.members.find((m) => m.plant.id === "c-tier");
     const dMember = result.members.find((m) => m.plant.id === "d-tier");
     // Both get added (different layers, no conflict) but only C is flagged traditional.
@@ -130,7 +130,7 @@ describe("buildGuild", () => {
       },
     ];
 
-    const result = buildGuild(anchor, [cTier, dTier], relationships);
+    const result = buildGuild([anchor], [cTier, dTier], relationships);
     expect(result.members).toHaveLength(2);
     expect(result.members[1].plant.id).toBe("c-tier");
   });
@@ -148,7 +148,7 @@ describe("buildGuild", () => {
       },
     ];
 
-    const result = buildGuild(anchor, [antagonist], relationships);
+    const result = buildGuild([anchor], [antagonist], relationships);
     expect(result.members).toHaveLength(1);
     expect(result.members[0].plant.id).toBe("anchor");
   });
@@ -171,7 +171,7 @@ describe("buildGuild", () => {
       },
     ];
 
-    const result = buildGuild(anchor, [siteFeature], relationships);
+    const result = buildGuild([anchor], [siteFeature], relationships);
     expect(result.members).toHaveLength(1);
   });
 
@@ -184,7 +184,7 @@ describe("buildGuild", () => {
     });
     const pawpaw = plant({ id: "pawpaw", guildLayer: "understory" });
 
-    const result = buildGuild(oakAnchor, [pawpaw], []);
+    const result = buildGuild([oakAnchor], [pawpaw], []);
     expect(result.members).toHaveLength(2);
     expect(result.members[0].plant.id).toBe("oak");
     expect(result.members[1].plant.id).toBe("pawpaw");
@@ -195,7 +195,7 @@ describe("buildGuild", () => {
     const sunny = plant({ id: "sunny", guildLayer: "herbaceous", sun: "full" });
     const shady = plant({ id: "shady", guildLayer: "herbaceous", sun: "shade" });
 
-    const result = buildGuild(tallAnchor, [sunny, shady], []);
+    const result = buildGuild([tallAnchor], [sunny, shady], []);
     expect(result.members).toHaveLength(2);
     expect(result.members[1].plant.id).toBe("shady");
   });
@@ -207,7 +207,7 @@ describe("buildGuild", () => {
 
     // Neither has a documented relationship or a co-habitability edge (identical
     // ranges), so without the shade rule the first candidate in input order wins.
-    const result = buildGuild(shortAnchor, [sunny, shady], []);
+    const result = buildGuild([shortAnchor], [sunny, shady], []);
     expect(result.members[1].plant.id).toBe("sunny");
   });
 
@@ -226,8 +226,68 @@ describe("buildGuild", () => {
       phMax: 7.0,
     });
 
-    const result = buildGuild(anchor, [incompatible, compatible], []);
+    const result = buildGuild([anchor], [incompatible, compatible], []);
     const ids = result.members.map((m) => m.plant.id);
     expect(ids).toEqual(["anchor", "compatible"]);
+  });
+
+  it("accepts multiple declared-present plants and fills remaining layers around all of them", () => {
+    const oak = plant({
+      id: "oak",
+      commonName: "White oak",
+      guildLayer: "canopy",
+      recommendable: false,
+      matureHeightCm: 2500,
+    });
+    const apple = plant({ id: "apple", commonName: "Apple", guildLayer: "understory" });
+    const pawpaw = plant({ id: "pawpaw", guildLayer: "shrub", sun: "shade" });
+
+    const result = buildGuild([oak, apple], [pawpaw], []);
+    const ids = result.members.map((m) => m.plant.id);
+    expect(ids).toEqual(["oak", "apple", "pawpaw"]);
+  });
+
+  it("shade rule triggers from any declared-present plant, not just the first", () => {
+    const smallAnchor = plant({ id: "anchor", guildLayer: "understory", matureHeightCm: 50 });
+    const tallExisting = plant({
+      id: "oak",
+      guildLayer: "canopy",
+      recommendable: false,
+      matureHeightCm: 2500,
+    });
+    const sunny = plant({ id: "sunny", guildLayer: "herbaceous", sun: "full" });
+    const shady = plant({ id: "shady", guildLayer: "herbaceous", sun: "shade" });
+
+    const result = buildGuild([smallAnchor, tallExisting], [sunny, shady], []);
+    expect(result.members.find((m) => m.plant.guildLayer === "herbaceous")?.plant.id).toBe(
+      "shady",
+    );
+  });
+
+  it("surfaces a conflict between two declared-present plants instead of dropping either", () => {
+    const cedar = plant({ id: "cedar", commonName: "Eastern red cedar", guildLayer: "canopy" });
+    const appleExisting = plant({ id: "apple", commonName: "Apple", guildLayer: "understory" });
+    const relationships: EngineRelationship[] = [
+      {
+        plantAId: "cedar",
+        plantBId: "apple",
+        relationType: "antagonistic",
+        evidenceTier: "B",
+        summary: "Cedar-apple rust: cedar is an alternate host.",
+      },
+    ];
+
+    const result = buildGuild([cedar, appleExisting], [], relationships);
+    // Both plants stay in the guild — the user already has both.
+    expect(result.members.map((m) => m.plant.id)).toEqual(["cedar", "apple"]);
+    expect(result.conflicts).toHaveLength(1);
+    expect(result.conflicts[0].summary).toContain("rust");
+  });
+
+  it("reports no conflicts when declared-present plants get along", () => {
+    const apple = plant({ id: "apple", guildLayer: "canopy" });
+    const clover = plant({ id: "clover", guildLayer: "groundcover" });
+    const result = buildGuild([apple, clover], [], []);
+    expect(result.conflicts).toEqual([]);
   });
 });

@@ -74,28 +74,71 @@ export interface GuildMember {
   reasons: GuildReason[];
 }
 
-export interface GuildResult {
-  members: GuildMember[];
+export interface GuildConflict {
+  plantAId: string;
+  plantAName: string;
+  plantBId: string;
+  plantBName: string;
+  summary: string;
+  evidenceTier: EvidenceTier;
 }
 
-// Greedy layer-fill: anchor plant, then for each empty layer (canopy ->
-// vine) pick the candidate with the best combined score against everyone
-// already in the guild. "Best" is a tier bucket from known relationships
-// (evidence tier ranks/gates, never folds into a magnitude — decision A2),
-// then the shade rule, then real soil-overlap strength as the tie-break.
-// A layer with no candidate that clears the hard filters is left empty;
-// the loop still tries the remaining layers (decision logged: a guild with
-// gaps is more useful than stopping dead on the first empty layer).
+export interface GuildResult {
+  members: GuildMember[];
+  // Antagonisms between two *declared-present* plants — the user already
+  // has both, so there's nothing to exclude. Surface as a warning instead
+  // of silently dropping one (feature spec note 17, point 5).
+  conflicts: GuildConflict[];
+}
+
+// Greedy layer-fill around one or more declared-present plants (an anchor,
+// plus optionally other things already in the yard — feature spec note
+// 17), then for each still-empty layer pick the candidate with the best
+// combined score against everyone already present. "Best" is a tier bucket
+// from known relationships (evidence tier ranks/gates, never folds into a
+// magnitude — decision A2), then the shade rule, then real soil-overlap
+// strength as the tie-break. A layer with no candidate that clears the hard
+// filters is left empty; the loop still tries the remaining layers
+// (decision logged: a guild with gaps is more useful than stopping dead on
+// the first empty layer).
 export function buildGuild(
-  anchor: EnginePlant,
+  presentPlants: EnginePlant[],
   candidates: EnginePlant[],
   relationships: EngineRelationship[],
 ): GuildResult {
-  const members: GuildMember[] = [{ plant: anchor, reasons: [] }];
-  const filledLayers = new Set<GuildLayer>();
-  if (anchor.guildLayer) filledLayers.add(anchor.guildLayer);
+  if (presentPlants.length === 0) {
+    throw new Error("buildGuild requires at least one present plant");
+  }
 
-  const anchorCastsShade = (anchor.matureHeightCm ?? 0) >= SHADE_CASTING_HEIGHT_CM;
+  const members: GuildMember[] = presentPlants.map((plant) => ({ plant, reasons: [] }));
+  const presentIds = new Set(presentPlants.map((plant) => plant.id));
+  const filledLayers = new Set<GuildLayer>();
+  for (const plant of presentPlants) {
+    if (plant.guildLayer) filledLayers.add(plant.guildLayer);
+  }
+
+  const anchorCastsShade = presentPlants.some(
+    (plant) => (plant.matureHeightCm ?? 0) >= SHADE_CASTING_HEIGHT_CM,
+  );
+
+  const conflicts: GuildConflict[] = [];
+  for (let i = 0; i < presentPlants.length; i++) {
+    for (let j = i + 1; j < presentPlants.length; j++) {
+      const a = presentPlants[i];
+      const b = presentPlants[j];
+      const functional = functionalScore(a.id, b.id, relationships);
+      if (functional?.relationType === "antagonistic") {
+        conflicts.push({
+          plantAId: a.id,
+          plantAName: a.commonName,
+          plantBId: b.id,
+          plantBName: b.commonName,
+          summary: functional.summary,
+          evidenceTier: functional.evidenceTier,
+        });
+      }
+    }
+  }
 
   for (const layer of LAYER_ORDER) {
     if (filledLayers.has(layer)) continue;
@@ -107,7 +150,7 @@ export function buildGuild(
       (candidate) =>
         candidate.recommendable &&
         candidate.guildLayer === layer &&
-        candidate.id !== anchor.id,
+        !presentIds.has(candidate.id),
     );
 
     const scored: {
@@ -189,5 +232,5 @@ export function buildGuild(
     filledLayers.add(layer);
   }
 
-  return { members };
+  return { members, conflicts };
 }
